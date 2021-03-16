@@ -22,11 +22,11 @@ CREATE TABLE employee (
     manager_id INT NOT NULL
 );
 
-INSERT INTO department
-VALUE
+INSERT INTO department ()
+VALUE ();
 
-INSERT INTO role
-VALUE
+INSERT INTO role ()
+VALUE ();
 
-INSERT INTO employee
-VALUE
+INSERT INTO employee ()
+VALUE ();

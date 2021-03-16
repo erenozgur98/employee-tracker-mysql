@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+require('console.table');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -21,7 +22,7 @@ const prompt = () => {
             type: 'list',
             message: 'What would you like to do?',
             choides: [
-                
+
             ]
         })
-}
+};
