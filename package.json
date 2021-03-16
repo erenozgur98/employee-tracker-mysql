@@ -20,5 +20,9 @@
   "homepage": "https://github.com/erenozgur98/employee-tracker-mysql#readme",
   "devDependencies": {
     "mysql": "^2.18.1"
+  },
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.0.0"
   }
 }
