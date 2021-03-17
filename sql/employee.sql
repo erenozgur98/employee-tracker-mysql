@@ -3,15 +3,16 @@ CREATE DATABASE employee;
 USE employee;
 
 CREATE TABLE department (
-id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(30) NOT NULL
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
-    department_id INT NOT NULL
+    department_id INT NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee (
@@ -47,14 +48,14 @@ INSERT INTO role (title, salary, department_id)
 VALUE ('Sales Lead', 100000, 1);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Yigit Eren', 'Ozgur', 2, 1);
+VALUE ('Yigit Eren', 'Ozgur', 5, 1);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Sommer', 'Moya-Mendez', 2 , 1);
+VALUE ('Sommer', 'Moya-Mendez', 5 , 2);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Eric', 'Hurley', 2, 1);
+VALUE ('Eric', 'Hurley', 5, 3);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Haleigh', 'Spurlock', 2, 1);
+VALUE ('Haleigh', 'Spurlock', 5, 4);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Sam', 'Finn', 4, 1);
+VALUE ('Shawn', 'Fox', 4, 3);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Natasha', 'Stark', 3, 1);
+VALUE ('Sam', 'Finn', 3, 2);
