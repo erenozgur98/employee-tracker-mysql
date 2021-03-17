@@ -88,88 +88,63 @@ const viewDepartments = () => {
 };
 
 const updateEmployee = () => {
-    connection.query('', (err, res) => {
+    connection.query('SELECT * FROM employee', (err, employees) => {
         if (err) throw err;
-        console.table(res);
+        let employeeChoices = employees.map(employee => { return { name : `${employee.first_name} ${employee.last_name}`}})
+        connection.query('SELECT * FROM role', (err, roles) => {
+            if (err) throw err;
+            let roleChoices = roles.map(role => { return { name: role.title, value: role.id }});
         inquirer
             .prompt([
                 {
-                    
+                    type: 'list',
+                    name: 'employee',
+                    message: 'Choose the employee you like to update',
+                    choices: employeeChoices
                 }
             ])
-    });
-    inquirer
-        .prompt([
+            .then((answer) => {
 
-        ])
+            })
+    });
+    });
 };
 
 const addEmployee = () => {
-    connection.query('SELECT * FROM employee', (err, res) => {
+    connection.query('SELECT * FROM employee', (err, employees) => {
         if (err) throw err;
-        let choices = res.map(res => `${res.first_name} ${res.last_name}`)
+        let employeeChoices = employees.map(employee => { return { name: `${employee.first_name} ${employee.last_name}`, value: employee.id }})
+        connection.query('SELECT * FROM role', (err, roles) => {
+            if (err) throw err;
+            let roleChoices = roles.map(role => { return { name: role.title, value: role.id }})            
         inquirer
             .prompt([
                 {
                     type: 'input',
-                    name: 'firstName',
+                    name: 'first_name',
                     message: 'Enter the new employee\'s first name'
                 },
                 {
                     type: 'input',
-                    name: 'lastName',
+                    name: 'last_name',
                     message: 'Enter the new employee\s last name'
                 },
                 {
                     type: 'list',
-                    name: 'role',
+                    name: 'role_id',
                     message: 'What is the new employee\'s role?',
-                    choices: [
-                        'Software Engineer',
-                        'Lead Engineer',
-                        'Accountant',
-                        'Accountant Manager',
-                        'Salesperson',
-                        'Legal Team Lead',
-                        'Sales Lead'
-                    ]
+                    choices: roleChoices
                 },
                 {
                     type: 'list',
-                    name: 'manager',
+                    name: 'manager_id',
                     message: 'Who is the new employee\'s manager?',
-                    choices: choices
+                    choices: employeeChoices
                 }
             ])
             .then((answer) => {
-                console.log('answer', answer);
-                let manager = answer.manager;
                 connection.query(
-                    'SELECT * FROM employee', (err, res) => {
-                        if (err) throw err;
-                        let roleId;
-                        for (let row of res) {
-                            roleId = row.id;
-                        }
-                        let managerId;
-                        let managerName;
-                        for (let data of res) {
-                            data.name = `${data.first_name} ${data.last_name}`;
-                            if (data.name === manager) {
-                                managerId = data.id;
-                                managerName = data.name;
-                            }
-                        }
-                    },
-                    'INSERT INTO employee SET ?',
-                    [
-                        {
-                            first_name: answer.firstName,
-                            last_name: answer.lastName,
-                            role_id: roleId,
-                            manager_id: managerId
-                        }
-                    ],
+                    'INSERT INTO employee SET ?', answer,
                     (err) => {
                         if (err) throw err;
                         console.log('New Employee has been added!');
@@ -177,6 +152,7 @@ const addEmployee = () => {
                     }
                 );
             })
+        })
     })
 };
 
